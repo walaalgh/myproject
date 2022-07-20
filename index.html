@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Speech-to-text conversion project</title>
+    </head>
+    <body>
+        <div align="center">
+            <button id="startBtn" onclick="startStt()">Speak now</button>
+            <p id="status">tap "Speak now" to start listening</p>
+            <h4 id="output"></h4>
+        </div>
+
+        <script>
+            function startStt() {
+                const startBtn = document.getElementById("startBtn");
+                const status = document.getElementById("status");
+                const output = document.getElementById("output");
+
+                var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+                const speech = new SpeechRecognition();
+
+                speech.onstart = function() {
+                    startBtn.disabled = true;
+                    output.innerText = "";
+                    status.innerHTML = "<p>listening...</p>";
+                };
+
+                speech.onspeechend = function() {
+                    startBtn.disabled = false;
+                    status.innerHTML = '<p>tap "Speak now" to start listening</p>';
+                    speech.stop();
+                }
+
+                speech.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    const confidence = event.results[0][0].confidence;
+
+                    output.innerText = transcript;
+
+                    const Http = new XMLHttpRequest();
+                };
+
+                speech.start();
+            }
+        </script>
+    </body>
+</html>
